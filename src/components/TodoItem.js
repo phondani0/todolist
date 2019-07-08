@@ -3,13 +3,7 @@ import propTypes from 'prop-types';
 
 class TodoItem extends Component {
     render() {
-        return (
-            <div>
-                <ul>
-                    <li>{this.props.title}</li>
-                </ul>
-            </div>
-        );
+        return <li className="list-group-item">{this.props.title}</li>;
     }
 }
 // PropTypes

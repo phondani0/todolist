@@ -37,10 +37,13 @@ class Lists extends Component {
     render() {
         return this.state.lists.map((list) => {
             return (
-                <div key={list.id}>
-                    <h2>{list.title}</h2>
-                    <Todos todos={list.todos} />
-                    <br />
+                <div key={list.id} className="card px-4 pt-3 pb-4 mb-3">
+                    <h3>{list.title}
+                        <i className="fa fa-sort-down"></i>
+                    </h3>
+                    <ul className="list-group list-unstyled">
+                        <Todos todos={list.todos} />
+                    </ul>
                 </div>
             );
         });
