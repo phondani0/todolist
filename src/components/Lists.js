@@ -5,7 +5,6 @@ import PropType from 'prop-types';
 class Lists extends Component {
     constructor(props) {
         super(props);
-        this.toggleOnClick = this.toggleOnClick.bind(this);
 
         //State
         this.state = {
@@ -40,30 +39,39 @@ class Lists extends Component {
                 }]
             }]
         }
+        // Binding this
+        this.toggleOnClick = this.toggleOnClick.bind(this);
+        this.deleteTodoItem = this.deleteTodoItem.bind(this);
     }
 
     toggleOnClick(id) {
         let preState;
-        console.log(id);
         preState = this.state.lists.map((list) => {
             if (list.id === id) {
                 list.showTodos = !list.showTodos;
             }
             return list;
         });
-        console.log(preState);
         this.setState({ lists: preState });
+    }
+
+    deleteTodoItem(listId, todoId) {
+        let newState = this.state.lists.map(list => {
+            list.todos = list.todos.filter(todo => todo.id !== todoId || listId !== list.id ? todo : null);
+            return list;
+        });
+        this.setState({ lists: newState });
     }
 
     render() {
         return this.state.lists.map((list) => {
             return (
                 <div key={list.id} className="card px-3 py-2 mb-3">
-                    <h3>{list.title}
-                        <i className="fa fa-sort-down pl-2" onClick={() => this.toggleOnClick(list.id)}></i>
-                    </h3>
+                    <h4>{list.title}
+                        <i className="fa fa-sort-down pl-2 text-danger" onClick={() => this.toggleOnClick(list.id)} style={{ cursor: "pointer" }}></i>
+                    </h4>
                     <ul className="list-group list-unstyled">
-                        {list.showTodos ? <Todos todos={list.todos} /> : null}
+                        {list.showTodos ? <Todos todos={list.todos} deleteClickHandler={todoId => this.deleteTodoItem(list.id, todoId)} /> : null}
                     </ul>
                 </div>
             );
