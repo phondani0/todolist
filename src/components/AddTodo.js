@@ -15,14 +15,14 @@ class AddTodo extends Component {
         return (
             <context.Consumer>
                 {(context) =>
-                    context.state.renderForm === true ?
-                        (<form onSubmit={(e) => context.addTodoItem(e, this.props.listId, this.state.todoTitle)}>
+                    context.state.addNewTodo === true ?
+                        (<form onSubmit={(e) => context.addTodoItem(e, this.props.listId, context.state.input)}>
                             <div className="input-group">
-                                <input type="text" className="form-control" value={this.state.todoTitle} onChange={this.handleChange} />
+                                <input type="text" className="form-control" value={context.state.input} onChange={context.handleChange} />
                             </div>
                         </form>)
                         :
-                        <button className="btn btn-primary p-2" onClick={context.toggleForm}>+</button>
+                        <button className="btn btn-primary p-2" onClick={context.addTodoClickHandler}>+</button>
                 }
             </context.Consumer>
         );
