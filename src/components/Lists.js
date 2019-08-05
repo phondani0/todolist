@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Todos from './Todos';
 import PropType from 'prop-types';
+import context from '../context/context';
 
 class Lists extends Component {
     constructor(props) {
@@ -11,56 +12,87 @@ class Lists extends Component {
             lists: [{
                 id: 1,
                 showTodos: false,
-                title: 'Movies to watch',
-                todos: [{
-                    id: 1,
-                    title: 'Butter Fly Effect',
-                    completed: false
-                },
-                {
-                    id: 2,
-                    title: 'Forest Gump',
-                    completed: false
-                }]
+                title: 'Movies to watch'
             },
             {
                 id: 2,
                 showTodos: false,
-                title: 'Places to visit',
-                todos: [{
-                    id: 1,
-                    title: 'Bangalore',
-                    completed: false
-                },
-                {
-                    id: 2,
-                    title: 'Mumbai',
-                    completed: false
-                }]
+                title: 'Places to visit'
+            }],
+
+            todos: [{
+                id: 1,
+                postId: 1,
+                title: 'Butter Fly Effect',
+                completed: false,
+                renderForm: false
+            },
+            {
+                id: 2,
+                postId: 1,
+                title: 'Forest Gump',
+                completed: false,
+                renderForm: false
+            },
+            {
+                id: 3,
+                postId: 2,
+                title: 'Bangalore',
+                completed: false,
+                renderForm: false
+            },
+            {
+                id: 4,
+                postId: 2,
+                title: 'Mumbai',
+                completed: false,
+                renderForm: false
             }]
         }
-        // Binding this
+
+        //Binding this
         this.toggleOnClick = this.toggleOnClick.bind(this);
-        this.deleteTodoItem = this.deleteTodoItem.bind(this);
     }
 
     toggleOnClick(id) {
-        let preState;
-        preState = this.state.lists.map((list) => {
+        const lists = [...this.state.lists];
+        const newLists = lists.map((list) => {
             if (list.id === id) {
                 list.showTodos = !list.showTodos;
             }
             return list;
         });
-        this.setState({ lists: preState });
+        this.setState({ lists: newLists });
     }
 
-    deleteTodoItem(listId, todoId) {
-        let newState = this.state.lists.map(list => {
-            list.todos = list.todos.filter(todo => todo.id !== todoId || listId !== list.id ? todo : null);
-            return list;
+    toggleRenderForm = (todoId) => {
+        const todos = [...this.state.todos];
+        const newTodos = todos.map((todo) => {
+            if (todo.id === todoId) {
+                todo.renderForm = true;
+            }
+            return todo;
         });
-        this.setState({ lists: newState });
+        this.setState({ todos: newTodos });
+    }
+
+    editTodoItem = (e, todoId, title) => {
+        e.preventDefault();
+        const todos = [...this.state.todos];
+        const newTodos = todos.map(todo => {
+            if (todo.id === todoId) {
+                todo.title = title;
+                todo.renderForm = false;
+            }
+            return todo;
+        });
+        this.setState({ todos: newTodos });
+    }
+
+    deleteTodoItem = (todoId) => {
+        const todos = [...this.state.todos];
+        const newTodos = todos.filter(todo => todo.id !== todoId);
+        this.setState({ todos: newTodos });
     }
 
     render() {
@@ -71,13 +103,23 @@ class Lists extends Component {
                         <i className="fa fa-sort-down pl-2 text-danger" onClick={() => this.toggleOnClick(list.id)} style={{ cursor: "pointer" }}></i>
                     </h4>
                     <ul className="list-group list-unstyled">
-                        {list.showTodos ? <Todos todos={list.todos} deleteClickHandler={todoId => this.deleteTodoItem(list.id, todoId)} /> : null}
+                        {list.showTodos ?
+                            <context.Provider value={{
+                                state: this.state,
+                                toggleRenderForm: this.toggleRenderForm,
+                                editTodoItem: this.editTodoItem,
+                                deleteTodoItem: this.deleteTodoItem
+                            }}>
+                                <Todos todos={this.state.todos.filter(todo => todo.postId === list.id)} />
+                            </context.Provider>
+                            : null}
                     </ul>
-                </div>
+                </div >
             );
         });
     }
 }
+
 // PropTypes
 Lists.PropType = {
     lists: PropType.array.isRequired
