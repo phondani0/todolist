@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Todos from './Todos';
+import AddTodo from './AddTodo';
 import PropType from 'prop-types';
 import context from '../context/context';
 
@@ -22,32 +23,33 @@ class Lists extends Component {
 
             todos: [{
                 id: 1,
-                postId: 1,
+                listId: 1,
                 title: 'Butter Fly Effect',
                 completed: false,
                 renderForm: false
             },
             {
                 id: 2,
-                postId: 1,
+                listId: 1,
                 title: 'Forest Gump',
                 completed: false,
                 renderForm: false
             },
             {
                 id: 3,
-                postId: 2,
+                listId: 2,
                 title: 'Bangalore',
                 completed: false,
                 renderForm: false
             },
             {
                 id: 4,
-                postId: 2,
+                listId: 2,
                 title: 'Mumbai',
                 completed: false,
                 renderForm: false
-            }]
+            }],
+            renderForm: false
         }
 
         //Binding this
@@ -57,12 +59,13 @@ class Lists extends Component {
     toggleOnClick(id) {
         const lists = [...this.state.lists];
         const newLists = lists.map((list) => {
-            if (list.id === id) {
+            if (list.id === id)
                 list.showTodos = !list.showTodos;
-            }
+            else
+                list.showTodos = false;
             return list;
         });
-        this.setState({ lists: newLists });
+        this.setState({ lists: newLists, renderForm: false });
     }
 
     toggleRenderForm = (todoId) => {
@@ -95,6 +98,26 @@ class Lists extends Component {
         this.setState({ todos: newTodos });
     }
 
+    // Add new Item
+    addTodoItem = (e, listId, title) => {
+        e.preventDefault();
+        const todos = [...this.state.todos];
+        const newTodo = {
+            id: todos.length + 1,
+            listId: listId,
+            title: title,
+            completed: false,
+            renderForm: false
+        }
+        todos.push(newTodo);
+        this.setState({ todos: todos, renderForm: false });
+    }
+
+    toggleForm = () => {
+        this.setState({ renderForm: true });
+        console.log(this.state);
+    }
+
     render() {
         return this.state.lists.map((list) => {
             return (
@@ -108,9 +131,12 @@ class Lists extends Component {
                                 state: this.state,
                                 toggleRenderForm: this.toggleRenderForm,
                                 editTodoItem: this.editTodoItem,
-                                deleteTodoItem: this.deleteTodoItem
+                                deleteTodoItem: this.deleteTodoItem,
+                                addTodoItem: this.addTodoItem,
+                                toggleForm: this.toggleForm
                             }}>
-                                <Todos todos={this.state.todos.filter(todo => todo.postId === list.id)} />
+                                <Todos todos={this.state.todos.filter(todo => todo.listId === list.id)} />
+                                <AddTodo listId={list.id} />
                             </context.Provider>
                             : null}
                     </ul>
