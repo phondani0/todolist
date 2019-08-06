@@ -4,5 +4,82 @@
 }
 
 body {
-  font-family: Helvetica, sans-serif, Arial;
+  height: 100vh;
+  font-family: 'Lato', sans-serif;
+  /* fallback for old browsers */
+  background: rgba(61, 194, 160, 0.27);
+  background: linear-gradient(30deg, #d7263dcc 40%, #279AF1 10%);
+  /* background-repeat: no-repeat; */
+  background-position: fixed;
+  background-size: cover;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin-bottom: 0;
+}
+
+.navbar {
+  background: linear-gradient(70deg, #f4f221, #e23ea1);
+}
+
+.card {
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.text-main {
+  color: #2dbcd4 !important;
+}
+
+.bg-main {
+  background-color: #2dbcd4 !important;
+  border-color: #2dbcd4 !important;
+  color: #ffffff;
+}
+
+.todo_list-container {
+  position: relative;
+  padding: 5rem 0 2rem;
+}
+
+.todo_list-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #2dbcd4;
+  color: #fff;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list-item {
+  background-color: #F6F5FA;
+}
+
+.list-item h4 {
+  color: #222;
+  font-size: 22px;
+}
+
+.todo-item {
+  background-color: #ffffff;
+  margin: 1rem 0;
+  padding: .8rem 1.2rem;
+}
+
+.add_todo {
+  text-align: center;
+}
+
+.add_todo i {
+  color: #2dbcd4;
+  font-size: 2rem;
+  text-align: center;
+  cursor: pointer;
 }

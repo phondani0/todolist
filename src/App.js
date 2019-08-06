@@ -2,67 +2,59 @@ import React, {
     Component
 } from 'react';
 import './App.css';
-import Header from './components/Header';
+// import Header from './components/Header';
 import Lists from './components/Lists';
 import AddList from './components/AddList';
 import context from './context/context';
 
 class App extends Component {
 
-    constructor(props) {
-        super(props);
+    state = {
+        lists: [{
+            id: 1,
+            title: 'Movies to watch',
+            showTodos: false
+        },
+        {
+            id: 2,
+            title: 'Places to visit',
+            showTodos: false
+        }],
 
-        //State
-        this.state = {
-            lists: [{
-                id: 1,
-                title: 'Movies to watch',
-                showTodos: false
-            },
-            {
-                id: 2,
-                title: 'Places to visit',
-                showTodos: false
-            }],
-
-            todos: [{
-                id: 1,
-                listId: 1,
-                title: 'Butter Fly Effect',
-                completed: false,
-                renderForm: false
-            },
-            {
-                id: 2,
-                listId: 1,
-                title: 'Forest Gump',
-                completed: false,
-                renderForm: false
-            },
-            {
-                id: 3,
-                listId: 2,
-                title: 'Bangalore',
-                completed: false,
-                renderForm: false
-            },
-            {
-                id: 4,
-                listId: 2,
-                title: 'Mumbai',
-                completed: false,
-                renderForm: false
-            }],
-            addNewList: false,
-            addNewTodo: false,
-            input: ''
-        }
-
-        //Binding this
-        this.toggleOnClick = this.toggleOnClick.bind(this);
+        todos: [{
+            id: 1,
+            listId: 1,
+            title: 'Butter Fly Effect',
+            completed: false,
+            renderForm: false
+        },
+        {
+            id: 2,
+            listId: 1,
+            title: 'Forest Gump',
+            completed: false,
+            renderForm: false
+        },
+        {
+            id: 3,
+            listId: 2,
+            title: 'Bangalore',
+            completed: false,
+            renderForm: false
+        },
+        {
+            id: 4,
+            listId: 2,
+            title: 'Mumbai',
+            completed: false,
+            renderForm: false
+        }],
+        addNewList: false,
+        addNewTodo: false,
+        input: ''
     }
 
-    toggleOnClick(id) {
+    toggleOnClick = (id) => {
         const lists = [...this.state.lists];
         const newLists = lists.map((list) => {
             if (list.id === id)
@@ -146,23 +138,32 @@ class App extends Component {
     render() {
         return (
             <div className="App" >
-                <Header />
+                {/* <Header /> */}
                 <div className="container">
-                    <context.Provider value={{
-                        state: this.state,
-                        toggleOnClick: this.toggleOnClick,
-                        toggleRenderForm: this.toggleRenderForm,
-                        editTodoItem: this.editTodoItem,
-                        deleteTodoItem: this.deleteTodoItem,
-                        addTodoItem: this.addTodoItem,
-                        addListItem: this.addListItem,
-                        handleChange: this.handleChange,
-                        addListClickHandler: this.addListClickHandler,
-                        addTodoClickHandler: this.addTodoClickHandler
-                    }}>
-                        <Lists />
-                        <AddList />
-                    </context.Provider>
+                    <div className="row">
+                        <div className="col-md-10 col-lg-8 col-xl-6 mx-auto my-5">
+                            <div className="card todo_list-container px-3 px-md-4">
+                                <div className="todo_list-header">
+                                    <h3>TodoList</h3>
+                                </div>
+                                <context.Provider value={{
+                                    state: this.state,
+                                    toggleOnClick: this.toggleOnClick,
+                                    toggleRenderForm: this.toggleRenderForm,
+                                    editTodoItem: this.editTodoItem,
+                                    deleteTodoItem: this.deleteTodoItem,
+                                    addTodoItem: this.addTodoItem,
+                                    addListItem: this.addListItem,
+                                    handleChange: this.handleChange,
+                                    addListClickHandler: this.addListClickHandler,
+                                    addTodoClickHandler: this.addTodoClickHandler
+                                }}>
+                                    <Lists />
+                                    <AddList />
+                                </context.Provider>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

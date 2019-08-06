@@ -18,11 +18,13 @@ class AddTodo extends Component {
                     context.state.addNewTodo === true ?
                         (<form onSubmit={(e) => context.addTodoItem(e, this.props.listId, context.state.input)}>
                             <div className="input-group">
-                                <input type="text" className="form-control" value={context.state.input} onChange={context.handleChange} />
+                                <input type="text" className="form-control" value={context.state.input} onChange={context.handleChange} placeholder="Add New Todo" />
                             </div>
                         </form>)
                         :
-                        <button className="btn btn-primary p-2" onClick={context.addTodoClickHandler}>+</button>
+                        <div className="add_todo">
+                            <i className="fa fa-plus-circle" onClick={context.addTodoClickHandler}></i>
+                        </div>
                 }
             </context.Consumer>
         );

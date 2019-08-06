@@ -36,8 +36,7 @@ class Todos extends Component {
                             return <TodoItem key={todo.id} id={todo.id} title={todo.title} completed={todo.completed} onEditClicked={() => {
                                 context.toggleRenderForm(todo.id);
                                 this.editClickHandler(todo.id, todo.title)
-                            }
-                            } />
+                            }} />
                         }
                     })
                 }

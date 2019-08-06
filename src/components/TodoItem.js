@@ -7,7 +7,7 @@ class TodoItem extends Component {
         return (
             <context.Consumer>
                 {(context) =>
-                    (<li className="list-group-item">
+                    (<li className="todo-item">
                         {this.props.title}
                         <div className="float-right">
                             <i className="far fa-edit text-success px-2" style={{ cursor: "pointer" }} onClick={this.props.onEditClicked}></i>
